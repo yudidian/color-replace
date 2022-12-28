@@ -1,0 +1,42 @@
+@import "dark.scss";
+@import "light.scss";
+$theme-map: ();
+$themesMaps: (
+   light: $light,
+   dark: $dark
+);
+@mixin theme-data {
+  @each $theme-name, $theme-map in $themesMaps {
+    $theme-map: $theme-map !global;
+    [data-theme="#{$theme-name}"] & {
+      @content
+    }
+  }
+}
+//声明一个根据Key获取颜色的function
+@function themed($key) {
+  @return map-get($theme-map, $key);
+}
+
+//获取背景颜色
+@mixin background_color($color) {
+  @include theme-data {
+    background-color: themed($color)!important;
+  }
+}
+
+//获取字体颜色
+@mixin font_color($color) {
+  @include theme-data {
+    color: themed($color)!important;
+  }
+}
+
+//获取边框颜色
+@mixin border_color($color) {
+  @include theme-data {
+    border-color: themed($color)!important;
+  }
+}
+
+

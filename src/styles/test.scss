@@ -1,0 +1,45 @@
+.content{
+  @at-root .child{
+    color: red;
+    .child-2{
+      color: burlywood;
+      .child-3{
+        color: #7AC800;
+      }
+    }
+  }
+}
+$list: (
+  key1: 1,
+  key2: 2,
+  key3: 3,
+  key4: 4
+);
+@each $name, $value in $list {
+  $theme-val: $value !global;
+  [data-theme="#{$name}"] & {
+    @content
+  }
+}
+$themesMaps: (
+        light: (1,2,3),
+        dark: (4,5,6)
+);
+@mixin theme-data {
+  @each $theme-name, $theme-map in $themesMaps {
+    $theme-map: $theme-map !global;
+    [data-theme="#{$theme-name}"] & {
+      @content
+    }
+  }
+}
+@function themed($key) {
+  @return map-get($theme-map, $key);
+}
+.content {
+  @include theme-data{
+    @include theme-data {
+      background-color: themed("color")!important;
+    }
+  }
+}
