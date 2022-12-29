@@ -33,9 +33,9 @@ $themesMaps: (
 }
 
 //获取边框颜色
-@mixin border_color($color) {
+@mixin border($length, $type, $color) {
   @include theme-data {
-    border-color: themed($color)!important;
+    border: $length $type themed($color)!important;
   }
 }
 
